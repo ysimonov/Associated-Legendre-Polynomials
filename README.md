@@ -34,4 +34,6 @@ I used this reference for computation of P(cos(theta))/sin(theta) term:
 Furthermore, I found out that the floor(n/2) has to be replaced with ceil(n/2) to give correct results! 
 The limit of Legendre/sin at theta->0+ has to be negative of what is described in the above paper.
 
+I reduced the factorials in the sum using Pochhammer symbol, which allowed me to compute evaluate P/sin up to 45-th order in standard 64bit floating point precision. Decimal module removed this limitation. I had to write a special factorial and pochhammer functions in Decimal precision too, because scipy and numpy could not function correctly. 
+
 For more information, contact me on simonov.yevgeniy@gmail.com
