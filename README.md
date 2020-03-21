@@ -15,3 +15,23 @@ The associated Legendre polynomials programmed here are currently valid only for
 The phase factor (-1)^m was omitted.
 
 The script is quite raw, but fully operational. 
+
+#For more details regarding computation of fully normalized Associated Legendre polynomials and 
+#Spherical harmonics, refer to the article below:
+#Limpanuparb, T. and Milthorpe, J., 2014. 
+#Associated Legendre Polynomials and Spherical Harmonics Computation for Chemistry Applications. 
+#arXiv preprint arXiv:1410.1748.
+
+I also used the recurrence relation after computing Pnm(cos(theta))/sin(theta) to evaluate dP/d(theta) (Just ask Wolframalpha
+for derivative of LegendreP[n,m,cos(theta)] w.r.t. theta recurrence relation).
+
+I used this reference for computation of P(cos(theta))/sin(theta) term:
+#For more information regarding P/sin term, read
+#Li, P. and Jiang, L.J., 2012. 
+#The far field transformation for the antenna modeling based on spherical electric field measurements. 
+#Progress In Electromagnetics Research, 123, pp.243-261.
+
+Furthermore, I found out that the floor(n/2) has to be replaced with ceil(n/2) to give correct results! 
+The limit of Legendre/sin at theta->0+ has to be negative of what is described in the above paper.
+
+For more information, contact me on simonov.yevgeniy@gmail.com
