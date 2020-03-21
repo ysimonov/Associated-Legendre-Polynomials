@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from scipy.special import poch,factorial
 from decimal import *
 import decimal
-getcontext().prec = 100 #this allows computation of L/sin up to 161-th order of n
+getcontext().prec = 100 #this allows computation of L/sin up to 200-th ++ order of n
 
 def pochs(z,m):
    prod = Decimal(z) 
