@@ -88,13 +88,6 @@ Leg_sin = np.zeros((size,NPTS),np.float_)
 Leg_sin[:,1:] = Leg[:,1:] / y[1:]
 
 #consider the case when theta=0:
-eps = 1e-6
-Leg0 = computeP(LL,idx,A,B,P,1.-eps)
-
-#for l in range(1,LL+1):
-#   Leg_sin[idx[l,1],0] = -(Leg[idx[l,1],0]-Leg0[idx[l,1]])/eps  #* np.sqrt((l+0.5)/(l*(l+1.0)))
-      #print("m,n,P=",m,l,Leg_sin[idx[l,m],0],Leg_sin[idx[l,m],1],Leg_sin[idx[l,m],2])
-
 m=1
 for n in range(1,LL+1):
    summ = Decimal(0)
@@ -106,18 +99,42 @@ for n in range(1,LL+1):
                           
    print(n,1,Leg_sin[idx[n,1],0])
 
+#Evaluate derivatives of normalized Associated Legendre polynomials using recurrence relation 
+   Leg_deriv = np.zeros((size,NPTS),np.float_)
+   for n in range(0,LL):
+      for m in range(0,LL+1):
+         Leg_deriv[idx[n,m],:] = -(n+1) * x[:] * Leg_sin[idx[n,m],:] + (n-m+1) * Leg_sin[idx[n+1,m],:] 
 
 fig = plt.figure()
 ax = plt.gca()
 ax.set_yscale('symlog')
 
-m = 1
-for n in range(1,200):
-   ax.scatter(x[:],Leg_sin[idx[n,m],:])#, label = 'n = ' + str(n) + ',' + 'm = ' + str(m))
-      
-plt.xlabel('cos(theta)')
-plt.ylabel('Normalised Associated Legendre Polynomials over sin(theta) for n=1 to 200 and m=1')
+for n in range(195,200):
+   for m in range(195,200):
+      ax.scatter(theta[:],Leg[idx[n,m],:], label = 'n = ' + str(n) + ',' + 'm = ' + str(m))
+plt.xlabel('theta')
+plt.ylabel('L(cos(theta))')
+plt.title('Normalised Associated Legendre Polynomialsfor n=1 to 200 and m=1')
 plt.grid()
 plt.legend()
 plt.show()
 
+for n in range(195,200):
+   for m in range(195,200):
+      ax.scatter(theta[:],Leg_sin[idx[n,m],:], label = 'n = ' + str(n) + ',' + 'm = ' + str(m))
+plt.xlabel('theta')
+plt.ylabel('L(cos(theta))/sin(theta)')
+plt.title('Normalised Associated Legendre Polynomials over sin(theta) for n=1 to 200 and m=1')
+plt.grid()
+plt.legend()
+plt.show()
+
+for n in range(1,200):
+   for m in range(195,200):
+      ax.scatter(theta[:],Leg_deriv[idx[n,m],:], label = 'n = ' + str(n) + ',' + 'm = ' + str(m))
+plt.xlabel('theta')
+plt.ylabel('dL(cos(theta))/d(theta)')
+plt.title('Derivatives of Normalised Associated Legendre Polynomials for n=1 to 200 and m=1')
+plt.grid()
+plt.legend()
+plt.show()
