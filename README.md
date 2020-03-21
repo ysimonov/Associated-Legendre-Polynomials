@@ -11,7 +11,7 @@ derivatives, can grab this code and use it freely.
 This program allows extended precision for calculation of very high order normalized Legendre functions. 
 This was acomplished with module decimal, extending beyond standard python precision. 
 
-The associated Legendre polynomials programmed here are currently valid only for m>=0.
+The associated Legendre polynomials programmed here are currently valid only for m>=0 and theta = [0,pi/2].
 The phase factor (-1)^m was omitted.
 
 The script is quite raw, but fully operational. 
