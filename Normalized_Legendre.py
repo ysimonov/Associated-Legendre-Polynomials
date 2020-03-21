@@ -105,10 +105,10 @@ for n in range(1,LL+1):
       for m in range(0,LL+1):
          Leg_deriv[idx[n,m],:] = -(n+1) * x[:] * Leg_sin[idx[n,m],:] + (n-m+1) * Leg_sin[idx[n+1,m],:] 
 
+#plot results
 fig = plt.figure()
 ax = plt.gca()
-ax.set_yscale('symlog')
-
+#ax.set_yscale('symlog')
 for n in range(195,200):
    for m in range(195,200):
       ax.scatter(theta[:],Leg[idx[n,m],:], label = 'n = ' + str(n) + ',' + 'm = ' + str(m))
@@ -119,6 +119,9 @@ plt.grid()
 plt.legend()
 plt.show()
 
+fig = plt.figure()
+ax = plt.gca()
+#ax.set_yscale('symlog')
 for n in range(195,200):
    for m in range(195,200):
       ax.scatter(theta[:],Leg_sin[idx[n,m],:], label = 'n = ' + str(n) + ',' + 'm = ' + str(m))
@@ -129,6 +132,9 @@ plt.grid()
 plt.legend()
 plt.show()
 
+fig = plt.figure()
+ax = plt.gca()
+#ax.set_yscale('symlog')
 for n in range(1,200):
    for m in range(195,200):
       ax.scatter(theta[:],Leg_deriv[idx[n,m],:], label = 'n = ' + str(n) + ',' + 'm = ' + str(m))
