@@ -4,6 +4,9 @@ The program generates
 
 2) Derivatives of Normalized Associated Legendre Polynomials of size [L+1,L+1]
 
+Normalization Constant: $sqrt((2*N+1)/2*(N-M)!/(N+M)!)$
+Phase Factor (-1)^M is omitted.
+
 References:
 
 Limpanuparb, T. and Milthorpe, J., 2014. Associated Legendre Polynomials and Spherical Harmonics Computation for Chemistry Applications. arXiv preprint arXiv:1410.1748.
