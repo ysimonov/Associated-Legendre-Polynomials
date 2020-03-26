@@ -4,7 +4,7 @@ The program generates
 
 2) Derivatives of Normalized Associated Legendre Polynomials of size [L+1,L+1]
 
-Normalization Constant: https://latex.codecogs.com/png.latex?\LARGE&space;\hat{P}_{N}^{|M|}(\cos\theta)=\sqrt{\frac{2N&plus;1}{2}&space;\frac{(N-|M|)!}{(N&plus;|M|)!}}&space;P_{N}^{|M|}(\cos\theta)
+Normalization Constant: https://latex.codecogs.com/png.latex?%5CLARGE%20%5Chat%7BP%7D_%7BN%7D%5E%7B%7CM%7C%7D%28%5Ccos%5Ctheta%29%3D%5Csqrt%7B%5Cfrac%7B2N&plus;1%7D%7B2%7D%20%5Cfrac%7B%28N-%7CM%7C%29%21%7D%7B%28N&plus;%7CM%7C%29%21%7D%7D%20P_%7BN%7D%5E%7B%7CM%7C%7D%28%5Ccos%5Ctheta%29
 
 Phase Factor (-1)^M is omitted.
 
