@@ -4,7 +4,7 @@ The program generates
 
 2) Derivatives of Normalized Associated Legendre Polynomials of size [L+1,L+1]
 
-Normalization Constant: <a href="https://www.codecogs.com/eqnedit.php?latex=\sqrt{\frac{2N&plus;1}{2}&space;\frac{(N-|M|)!}{(N&plus;|M|)!}}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\sqrt{\frac{2N&plus;1}{2}&space;\frac{(N-|M|)!}{(N&plus;|M|)!}}" title="\sqrt{\frac{2N+1}{2} \frac{(N-|M|)!}{(N+|M|)!}}" /></a>
+Normalization Constant: <img src="https://latex.codecogs.com/gif.latex?\sqrt{\frac{2N&plus;1}{2}&space;\frac{(N-|M|)!}{(N&plus;|M|)!}}" title="\sqrt{\frac{2N+1}{2} \frac{(N-|M|)!}{(N+|M|)!}}" />
 
 Phase Factor (-1)^M is omitted.
 
