@@ -37,7 +37,8 @@ def generateP(L,theta):
 
     Note, LegendreP / sin(theta) -> Infinity for m=0 at theta = 0 and theta = pi
     To prevent NaNs, I assumed these terms to be 0 instead of Infinity
-
+    
+    This assumption by no means affected dP/dtheta, because dP/dtheta = -sin(theta) dP/d(cos(theta)) = 0
     """
     A = np.zeros((L+2,L+2),dtype=np.float64)
     B = np.zeros((L+2,L+2),dtype=np.float64)
