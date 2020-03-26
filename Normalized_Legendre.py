@@ -20,12 +20,25 @@ def computeP(L,x,y,A,B):
          P[l,l]=temp
    return P
 
-if __name__ == "__main__":
+def generateP(L,theta):
+    """
+    generates Normalized Associated Legendre Polynomials and
+    their derivateves for all n,m = 0 .. L
+    
+    Input: L - integer, order of LegendreP
+           theta - angular grid in radians
 
-    L = 100
-    dtheta = 0.5 #degrees
-    Lx = 2
+    Output: LegendreP = sqrt( ( 2 * l + 1 ) / 2 * ( l - |m| )! / ( l + |m| )! ) * Legendre[l,|m|,cos(theta)]
+            LegendreD = d/dtheta { LegendreP[l,|m|,cos(theta)] }
 
+    There is no phase factor (-1)^M in this implementation
+
+    Legendre Polynomials = 0 for all |m| > l
+
+    Note, LegendreP / sin(theta) -> Infinity for m=0 at theta = 0 and theta = pi
+    To prevent NaNs, I assumed these terms to be 0 instead of Infinity
+
+    """
     A = np.zeros((L+2,L+2),dtype=np.float64)
     B = np.zeros((L+2,L+2),dtype=np.float64)
     for l in range(2,L+2):
@@ -35,10 +48,6 @@ if __name__ == "__main__":
             ms = m**2
             A[l,m] = math.sqrt((4*ls-1)/(ls-ms))
             B[l,m] = -math.sqrt((lm1s-ms)/(4*lm1s-1))
-
-    theta = np.arange(0,180+dtheta,dtheta,dtype=np.float64) * math.pi / 180
-    theta_min = theta[0]
-    theta_max = theta[-1]
 
     xmax = np.size(theta)
     x = np.cos(theta)
@@ -72,6 +81,20 @@ if __name__ == "__main__":
                                     (l-m+1) * LegendreS[l+1,m,:] * \
                                     math.sqrt((2*l+1)*(l+m+1)/(2*l+3)/(l-m+1))
 
+    return LegendreP[0:L+1,0:L+1], LegendreD
+
+if __name__ == "__main__":
+
+    L = 100 #maximum order of associated Legendre polynomials
+
+    dtheta = 0.5 #angular spacing
+    theta = np.arange(0,180+dtheta,dtheta,dtype=np.float64) * math.pi / 180
+    theta_min = theta[0]
+    theta_max = theta[-1]
+
+    LegendreP, LegendreD = generateP(L,theta)
+
+    #plot results
     m = L-5
     for l in range(m,L+1):
         plt.plot(theta,LegendreD[l,m,:],linewidth=0.5)
