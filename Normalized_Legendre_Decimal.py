@@ -83,35 +83,33 @@ def sin(x):
     return +s
 
 def computeP(L,x,y,A,B):
-    """
-    computes Normalized Associated Legendre Polynomials
-    A, B - arrays used in recurrence
-    x - cos(theta)
-    y - sin(theta)
-    L - degree of P
+   """
+   computes Normalized Associated Legendre Polynomials
+   A, B - arrays used in recurrence
+   x - cos(theta)
+   y - sin(theta)
+   L - degree of P
 
-    Returns P[0:L+1,0:L+1] for all l = 0..L, |m| = 0..L
-    """
+   Returns P[0:L+1,0:L+1] for all l = 0..L, |m| = 0..L
+   """
    P = np.zeros((L+1,L+1),dtype=decimal_type)
    one = Decimal(1)
    two = Decimal(2)
    three = Decimal(3)
    temp = one / two.sqrt() #1/sqrt(2)
-   xd = Decimal(x)
-   yd = Decimal(y)
    P[0,0] = temp
    if(L>0):
       SQRT3 = three.sqrt() #sqrt(3)
       SQRT3DIV2 = -SQRT3 * temp #-sqrt(3/2)
-      P[1,0] = -xd*SQRT3DIV2
+      P[1,0] = -x*SQRT3DIV2
       temp = SQRT3DIV2*Decimal(y)*temp
       P[1,1]=temp
       for l in range(2,L+1):
          ld = Decimal(l)
          for m in range(0,l-1):
-            P[l,m] = A[l,m]*(xd * P[l-1,m] + B[l,m] * P[l-2,m]) #(14)
-         P[l,l-1]=(two*(ld-one)+three).sqrt()*xd*temp #(13)
-         temp=-(one+one/(two*ld)).sqrt()*yd*temp
+            P[l,m] = A[l,m]*(x*P[l-1,m]+B[l,m]*P[l-2,m]) #(14)
+         P[l,l-1]=(two*(ld-one)+three).sqrt()*x*temp #(13)
+         temp=-(one+one/(two*ld)).sqrt()*y*temp
          P[l,l]=temp
    return P
 
