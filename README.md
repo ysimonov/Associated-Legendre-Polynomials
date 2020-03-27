@@ -16,4 +16,20 @@ Li, P. and Jiang, L.J., 2012. The far field transformation for the antenna model
 
 Wysin, G.M., 2011. Associated legendre functions and dipole transition matrix elements.
 
-Associated_Legendre_Decimal.py is the extended precision version of Associated_Legendre.py. While it is more accurate, in can be significantly slower compared to floating point precision arithmetic. 
+Associated_Legendre_Decimal.py is the extended precision version of Associated_Legendre.py. While it is more accurate, in can be significantly slower compared to floating point precision arithmetic:
+
+Timing Comparison (in seconds): 
+
+L = 30 : 0.2833747863769531 | 1.2349169254302979
+
+L = 70 : 1.4793822765350342 | 5.806833505630493
+
+L = 100 : 2.87738299369812 | 11.526304721832275
+
+L = 200 : 12.345782041549683 | 46.637011766433716 
+
+L = 300 : 25.131556034088135 | 103.22485566139221
+
+Test machine: Intel(R) Core(TM) i7-2620M CPU @ 2.70GHz 4096 KB 4 CPUs 16Gb RAM
+
+
