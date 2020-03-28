@@ -73,8 +73,8 @@ def generateP(L,theta):
         LegendreS[l,m,asymptote[1]] = (-1) ** (l+1) * LegendreS[l,m,asymptote[0]]
 
     LegendreD = np.zeros((L+1,L+1,xmax),dtype=np.float64)
-    for l in range(0,L+1):
-        for m in range(0,l):
+    for l in range(1,L+1):
+        for m in range(1,l+1):
             LegendreD[l,m,:] = -(l+1) * x[:] * LegendreS[l,m,:] + \
                                     (l-m+1) * LegendreS[l+1,m,:] * \
                                     math.sqrt((2*l+1)*(l+m+1)/(2*l+3)/(l-m+1))
