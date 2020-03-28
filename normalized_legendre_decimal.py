@@ -82,7 +82,7 @@ def sin(x):
     getcontext().prec -= 2
     return +s
 
-def computeP(L,x,y,A,B):
+def computeP(L, x, y, A, B):
    """
    computes Normalized Associated Legendre Polynomials
    A, B - arrays used in recurrence
@@ -92,28 +92,28 @@ def computeP(L,x,y,A,B):
 
    Returns P[0:L+1,0:L+1] for all l = 0..L, |m| = 0..L
    """
-   P = np.zeros((L+1,L+1),dtype=decimal_type)
+   P = np.zeros((L+1, L+1), dtype=decimal_type)
    one = Decimal(1)
    two = Decimal(2)
    three = Decimal(3)
    temp = one / two.sqrt() #1/sqrt(2)
-   P[0,0] = temp
+   P[0, 0] = temp
    if(L>0):
       SQRT3 = three.sqrt() #sqrt(3)
-      SQRT3DIV2 = -SQRT3 * temp #-sqrt(3/2)
-      P[1,0] = -x*SQRT3DIV2
-      temp = SQRT3DIV2*Decimal(y)*temp
-      P[1,1]=temp
-      for l in range(2,L+1):
+      SQRT3DIV2 = SQRT3*temp #sqrt(3/2)
+      P[1, 0] = x*SQRT3DIV2
+      temp = -SQRT3DIV2*Decimal(y)*temp
+      P[1, 1]=temp
+      for l in range(2, L+1):
          ld = Decimal(l)
-         for m in range(0,l-1):
-            P[l,m] = A[l,m]*(x*P[l-1,m]+B[l,m]*P[l-2,m]) #(14)
-         P[l,l-1]=(two*(ld-one)+three).sqrt()*x*temp #(13)
+         for m in range(0, l-1):
+            P[l, m] = A[l, m]*(x*P[l-1, m]+B[l, m]*P[l-2, m]) #(14)
+         P[l, l-1]=(two*(ld-one)+three).sqrt()*x*temp #(13)
          temp=-(one+one/(two*ld)).sqrt()*y*temp
-         P[l,l]=temp
+         P[l, l]=temp
    return P
 
-def generateP(L,theta_min,theta_max,theta_inc):
+def generateP(L, theta_min, theta_max, theta_inc):
     """
     generates Normalized Associated Legendre Polynomials and
     their derivateves for all n,m = 0 .. L
@@ -136,14 +136,14 @@ def generateP(L,theta_min,theta_max,theta_inc):
     """
 
     xmax = int((theta_max + theta_inc - theta_min) / theta_inc)
-    theta = np.zeros((xmax),dtype=decimal_type)
+    theta = np.zeros((xmax), dtype=decimal_type)
 
     dtheta = Decimal(theta_inc) * deg2rad(1)
     theta[0] = Decimal(theta_min) * deg2rad(1)
 
     eps = 1e-14
 
-    for i in range(1,xmax):
+    for i in range(1, xmax):
         theta[i] = theta[i-1] + dtheta
 
     one = Decimal(1)
@@ -152,67 +152,66 @@ def generateP(L,theta_min,theta_max,theta_inc):
     four = Decimal(4)
 
     #construct arrays that will be used in Legendre recurrence
-    A = np.zeros((L+2,L+2),dtype=decimal_type)
-    B = np.zeros((L+2,L+2),dtype=decimal_type)
-    for l in range(2,L+2):
+    A = np.zeros((L+2, L+2),dtype=decimal_type)
+    B = np.zeros((L+2, L+2),dtype=decimal_type)
+    for l in range(2, L+2):
         ld = Decimal(l)
         ls = ld * ld
         lm1s = (ld - one) * (ld - one)
         ls1 = four * ls - one
         lm1s1 = four * lm1s - one
-        for m in range(0,l-1):
+        for m in range(0, l-1):
             md = Decimal(m)
             ms = md * md
-            A[l,m] = Decimal(ls1/(ls-ms)).sqrt()
-            B[l,m] = -Decimal((lm1s-ms)/lm1s1).sqrt()
+            A[l, m] = Decimal(ls1/(ls-ms)).sqrt()
+            B[l, m] = -Decimal((lm1s-ms)/lm1s1).sqrt()
 
     #construct cos(theta) and sin(theta)
-    x = np.zeros((xmax),dtype=decimal_type)
-    y = np.zeros((xmax),dtype=decimal_type)
+    x = np.zeros((xmax), dtype=decimal_type)
+    y = np.zeros((xmax), dtype=decimal_type)
 
-    for i in range(0,xmax):
+    for i in range(0, xmax):
         x[i] = cos(theta[i])
         y[i] = sin(theta[i])
 
     #compute Normalized Associated Legendre Polynomials
-    LegendreP = np.zeros((L+2,L+2,xmax),dtype=decimal_type)
-    for i in range(0,xmax):
-        LegendreP[:,:,i] = computeP(L+1,x[i],y[i],A,B)
+    LegendreP = np.zeros((L+2, L+2, xmax), dtype=decimal_type)
+    for i in range(0, xmax):
+        LegendreP[:, :, i] = computeP(L+1, x[i], y[i], A, B)
 
     #find asymptotes for computation of Legendre / sin term
     mask1 = (abs(theta - Decimal(0)) < eps)
     mask2 = (abs(theta - pi()) < eps)
-    mask = np.ma.mask_or(mask1,mask2)
+    mask = np.ma.mask_or(mask1, mask2)
 
     asymptote = np.where(mask)[0]
     regular = np.where(~mask)[0]
 
     #construct Legendre / sin
-    LegendreS = np.zeros((L+2,L+2,xmax),dtype=decimal_type)
-    LegendreS[:,:,regular] = LegendreP[:,:,regular] / y[regular]
+    LegendreS = np.zeros((L+2, L+2, xmax), dtype=decimal_type)
+    LegendreS[:, :, regular] = LegendreP[:, :, regular] / y[regular]
 
     #consider special case when m = 1
     m = 1
     p5 = one / two
-    for l in range(1,L+2):
+    for l in range(1, L+2):
         ld = Decimal(l)
         lp1 = ld + one
-        LegendreS[l,m,asymptote[0]] = -p5 * Decimal(ld*(two*ld+one)*lp1*p5).sqrt()
-        LegendreS[l,m,asymptote[1]] = -one ** lp1 * LegendreS[l,m,asymptote[0]]
+        LegendreS[l, m, asymptote[0]] = -p5 * Decimal(ld*(two*ld+one)*lp1*p5).sqrt()
+        LegendreS[l, m, asymptote[1]] = -one ** lp1 * LegendreS[l, m, asymptote[0]]
 
     #compute Normalized Associated Legendre derivatives using recurrence relation
-    LegendreD = np.zeros((L+1,L+1,xmax),dtype=decimal_type)
-    for l in range(1,L+1):
+    LegendreD = np.zeros((L+1, L+1, xmax), dtype=decimal_type)
+    for l in range(1, L+1):
         ld = Decimal(l)
         lp1 = ld + one
         lp3 = two * ld + three
-        for m in range(1,l+1):
+        for m in range(0, l+1):
             md = Decimal(m)
-            lmp1 = ld - md + one
-            LegendreD[l,m,:] = -lp1 * x[:] * LegendreS[l,m,:] + lmp1 * LegendreS[l+1,m,:] * \
-                                Decimal((two*ld+one)*(ld+md+one)/lp3/lmp1).sqrt()
+            LegendreD[l, m, :] = -lp1 * x[:] * LegendreS[l, m, :] + LegendreS[l+1, m, :] * \
+                                Decimal((two*ld+one)*(ld+md+one)*(ld-md+one)/lp3).sqrt()
 
-    return np.float64(LegendreP[0:L+1,0:L+1]), np.float64(LegendreD)
+    return np.float64(LegendreP[0:L+1, 0:L+1]), np.float64(LegendreD)
 
 if __name__ == "__main__":
 
@@ -225,25 +224,24 @@ if __name__ == "__main__":
     theta_max = 180 #maximum value, in degrees
     theta_inc = 0.5 #increment, in degrees
 
-    theta = np.arange(theta_min,theta_max+theta_inc,theta_inc,dtype=np.float64)
+    theta = np.arange(theta_min, theta_max+theta_inc, theta_inc, dtype=np.float64)
 
     start_time = time.time()
 
     #call functions to generate Legendre Polynomials in Decimal Precision and return float64 arrays
-    LegendreP, LegendreD = generateP(L,theta_min,theta_max,theta_inc)
+    LegendreP, LegendreD = generateP(L, theta_min, theta_max, theta_inc)
 
     stop_time = time.time()
     print('Time elapsed = ', stop_time-start_time)
 
     #plot results
-    m = L-5
-    for l in range(m,L+1):
-        plt.plot(theta,LegendreD[l,m,:],linewidth=0.5)
-
-    plt.title('Derivatives of Normalized Associated Polynomials up to l=' + str(L) + ' for m='+str(m))
+    m = 1
+    l = 1
+    plt.plot(theta,LegendreD[l, m, :],linewidth=0.5)
+    plt.title('Derivatives of Normalized Associated Polynomials for l=' + str(l) + ', m='+str(m))
     plt.xlabel(r'$\theta$')
     plt.ylabel(r'$\partial\{\hat{P}_{l}^{m}(\cos\theta)\}/\partial\theta$')
     plt.xlim(theta_min,theta_max)
     plt.grid()
-    plt.savefig('Lmax='+str(L)+'_M='+str(m)+'.png',dpi=800)
+    plt.savefig('L='+str(L)+',M='+str(m)+'.png',dpi=800)
 
