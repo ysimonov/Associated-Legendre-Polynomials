@@ -75,8 +75,8 @@ def generateP(L,theta):
     for l in range(1, L+1):
         for m in range(0, l+1):
             LegendreD[l, m, :] = -(l+1) * x[:] * LegendreS[l, m, :] + \
-                                    (l-m+1) * LegendreS[l+1, m, :] * \
-                                    np.sqrt((2*l+1)*(l+m+1)/(2*l+3)/(l-m+1))
+                                 LegendreS[l+1, m, :] * \
+                                 np.sqrt((2*l+1)*(l+m+1)*(l-m+1)/(2*l+3))
 
     return LegendreP[0:L+1, 0:L+1], LegendreD
 
