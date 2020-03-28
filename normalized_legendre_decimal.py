@@ -202,11 +202,11 @@ def generateP(L,theta_min,theta_max,theta_inc):
 
     #compute Normalized Associated Legendre derivatives using recurrence relation
     LegendreD = np.zeros((L+1,L+1,xmax),dtype=decimal_type)
-    for l in range(0,L+1):
+    for l in range(1,L+1):
         ld = Decimal(l)
         lp1 = ld + one
         lp3 = two * ld + three
-        for m in range(0,l):
+        for m in range(1,l+1):
             md = Decimal(m)
             lmp1 = ld - md + one
             LegendreD[l,m,:] = -lp1 * x[:] * LegendreS[l,m,:] + lmp1 * LegendreS[l+1,m,:] * \
